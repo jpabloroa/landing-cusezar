@@ -1,5 +1,4 @@
 *
 !public/
-!formatos/
-!proyectos/
+
 !.gitignore
