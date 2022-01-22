@@ -263,12 +263,10 @@
             for (let i = 0; i < elements.length; i++) {
                 if (elements[i].value === element.value) {
                     console.log(elements[i].getAttribute('recorrido'));
-
                     Object.assign(document.createElement('a'), {
                         target: '_blank',
                         href: elements[i].getAttribute('recorrido'),
                     }).click();
-
                 }
             }
         };
