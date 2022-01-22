@@ -368,12 +368,11 @@ class ReservaController extends Controller
 
     public function cotizar(Request $request)
     {
-        /*
         if (!$request->session()->has('clientArray')) {
             //
             return redirect()->route('reservar');
         }
-        */
+
         $clientArray = $request->session()->get('clientArray');
 
         $cotizador = new CotizacionController('launiondelamarlene');

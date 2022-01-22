@@ -16,7 +16,7 @@ class CotizacionController extends Controller
 
     public function __construct($proyecto = '')
     {
-        $this->proyecto = (object)json_decode(Storage::disk('local')->get('public/proyectos/' . $proyecto . '.json'));
+        $this->proyecto = (object)json_decode(Storage::disk('local')->get('proyectos/' . $proyecto . '.json'));
         $this->area = $this->proyecto->areas[0];
     }
 

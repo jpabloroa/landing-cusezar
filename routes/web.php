@@ -63,7 +63,7 @@ Route::get('/firmar', function (\Illuminate\Http\Request $request) {
 
     $fileManager->imagesDirectory = 'public/formatos';
 
-    $origen = imagecreatefromjpeg('C:\xampp\htdocs\proyectos\landing-cusezar\storage\app\public\formatos\conocimiento\0.jpg');
+    $origen = imagecreatefromjpeg(__DIR__ . '/../storage/app/formatos/conocimiento/0.jpg');
     $im = imagecreate(20, 20);
 
     $fuente = 'C:\xampp\htdocs\proyectos\landing-cusezar\storage\app\public\formatos\fuentes\tahoma.ttf';
