@@ -39,7 +39,7 @@ class CreateProspectosTable extends Migration
             $table->decimal('activos')->default(0);
             $table->decimal('pasivos')->default(0);
             $table->decimal('credito')->default(0);
-            $table->json('documentos_cliente')->default('{}');
+            $table->json('documentos_cliente');
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
