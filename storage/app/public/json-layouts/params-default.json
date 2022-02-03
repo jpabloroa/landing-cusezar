@@ -1,0 +1,148 @@
+{
+    "nombre_1": {
+        "title": "Primer nombre",
+        "type": "text",
+        "placeholder": "",
+        "value": ""
+    },
+    "nombre_2": {
+        "title": "Segundo nombre",
+        "type": "text",
+        "placeholder": "",
+        "value": ""
+    },
+    "apellido_1": {
+        "title": "Primer apellido",
+        "type": "text",
+        "placeholder": "",
+        "value": ""
+    },
+    "apellido_2": {
+        "title": "Segundo apellidos",
+        "type": "text",
+        "placeholder": "",
+        "value": ""
+    },
+    "cedula": {
+        "title": "Numero de identificacion",
+        "type": "text",
+        "placeholder": "C.C.:",
+        "value": ""
+    },
+    "celular": {
+        "title": "Celular",
+        "type": "text",
+        "placeholder": "+57",
+        "value": ""
+    },
+    "correo": {
+        "title": "Correo electrónico",
+        "type": "email",
+        "placeholder": "sucorreo@ejemplo.com",
+        "value": ""
+    },
+    "estado_civil": {
+        "title": "Estado Civil",
+        "type": "radios",
+        "values": {
+            "soltero": "Soltero(a) sin unión marital de hecho",
+            "union_libre": "Soltero(a) con unión marital de hecho",
+            "casado": "Casado(a) con unión marital vigente"
+        }
+    },
+    "aplica_subsidio": {
+        "title": "¿Desea aplicar a subsidio?",
+        "type": "radios",
+        "values": [
+            "Si",
+            "No"
+        ]
+    },
+    "caja_compensacion": {
+        "title": "Caja de compensación",
+        "type": "radios",
+        "values": {
+            "compensar": "Compensar",
+            "colsubsidio": "Colsubsidio",
+            "cafam": "Cafam",
+            "comfacundi": "Caja de compensación de Cundinamarca"
+        }
+    },
+    "actividad": {
+        "title": "Seleccione su actividad económica",
+        "type": "radios",
+        "values": {
+            "empleado": "Empleado",
+            "independiente": "Independiente"
+        }
+    },
+    "ingresos": {
+        "title": "Ingreso mensual $COP",
+        "type": "currency",
+        "placeholder": "0",
+        "value": "0"
+    },
+    "gastos": {
+        "title": "Egresos mensuales",
+        "type": "currency",
+        "placeholder": "0",
+        "value": "0"
+    },
+    "primas_proyectadas": {
+        "title": "¿Proyectar primas?",
+        "type": "radios",
+        "values": [
+            "Si",
+            "No"
+        ]
+    },
+    "cesantias": {
+        "title": "Saldo actual en cesantías",
+        "type": "currency",
+        "placeholder": "0",
+        "value": "0"
+    },
+    "cesantias_proyectadas": {
+        "title": "¿Proyectar cesantías?",
+        "type": "radios",
+        "values": [
+            "Si",
+            "No"
+        ]
+    },
+    "ahorros": {
+        "title": "Ahorros adicionales",
+        "type": "currency",
+        "placeholder": "0",
+        "value": "0"
+    },
+    "ahorros_proyectados": {
+        "title": "¿Proyectar ahorros?",
+        "type": "radios",
+        "values": [
+            "Si",
+            "No"
+        ]
+    },
+    "activos": {
+        "title": "Activos",
+        "type": "currency",
+        "placeholder": "0",
+        "value": "0"
+    },
+    "pasivos": {
+        "title": "Pasivos",
+        "type": "currency",
+        "placeholder": "0",
+        "value": "0"
+    },
+    "credito": {
+        "title": "Preaprobación",
+        "type": "currency",
+        "placeholder": "0",
+        "value": "0"
+    },
+    "submit": {
+        "type": "submit"
+    }
+}

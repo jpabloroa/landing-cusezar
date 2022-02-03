@@ -1,7 +1,9 @@
 <?php
 
-$cotizacion = new \App\Http\Controllers\CotizacionController('launiondelamarlene');
-echo $cotizacion->cotizar();
-?>
+use Illuminate\Http\RedirectResponse;
 
-<script></script>
+echo "Perico";
+
+
+
+?>

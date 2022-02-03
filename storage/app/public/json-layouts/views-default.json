@@ -1,0 +1,55 @@
+[
+    {
+        "title": "",
+        "views": [
+            "nombre_1",
+            "nombre_2",
+            "apellido_1",
+            "apellido_2"
+        ],
+        "to": ""
+    },
+    {
+        "title": "",
+        "views": [
+            "cedula",
+            "celular",
+            "correo",
+            "estado_civil"
+        ],
+        "to": ""
+    },
+    {
+        "title": "",
+        "views": [
+            "aplica_subsidio",
+            "caja_compensacion"
+        ],
+        "to": ""
+    },
+    {
+        "title": "",
+        "views": [
+            "actividad",
+            "ingresos",
+            "gastos",
+            "primas_proyectadas",
+            "cesantias",
+            "cesantias_proyectadas",
+            "ahorros",
+            "ahorros_proyectados"
+        ],
+        "to": ""
+    },
+    {
+        "title": "",
+        "views": [
+            "activos",
+            "pasivos",
+            "credito",
+            "submit"
+        ],
+        "to": ""
+    }
+]
+

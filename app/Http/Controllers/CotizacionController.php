@@ -14,18 +14,19 @@ class CotizacionController extends Controller
         return 1000000;
     }
 
-    public function __construct($proyecto = '')
+    public function __construct($proyecto = null)
     {
-        $this->proyecto = (object)json_decode(Storage::disk('local')->get('public/proyectos/' . $proyecto . '.json'));
-        $this->area = $this->proyecto->areas[0];
-    }
-
-    public function area($construidos = 0)
-    {
-        foreach ($this->proyecto->areas[0] as $area) {
-            if ($area->construidos == $construidos) {
-                $this->area = $area;
+        try {
+            if ($proyecto == null) {
+                return redirect()->route('proyectos');
             }
+            $this->proyecto = (object)json_decode(Storage::disk('local')->get('public/proyectos/' . $proyecto . '.json'));
+            echo json_encode($this->proyecto);
+            $this->area = $this->proyecto->areas[0];
+            echo "<br>";
+            echo json_encode($this->area);
+        } catch (\Exception $e) {
+            $this->log($e);
         }
     }
 

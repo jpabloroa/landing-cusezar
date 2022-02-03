@@ -19,40 +19,22 @@ Route::get('/', function (\Illuminate\Http\Request $request) {
     return redirect()->route('reservar');
 });
 
+/*
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+*/
 
-Route::get('/pruebas', function () {
-    return view('pruebas');
-});
+Route::get('/pruebas', [\App\Http\Controllers\ReservaController::class, 'hola']
+//function () {
+//return view('pruebas');
+//}
+);
 
-Route::post('/sapoloco', function (\Illuminate\Http\Request $request) {
-    $array = $request->session()->get('valor');
-    $array[] = $request->valor;
-    $request->session()->put('valor', $array);
+Route::get('/dump', function (\Illuminate\Http\Request $request) {
+    //$request->session()->regenerate();
+    //$request->session()->put('perico', 'ola');
 
-    if ($request->session()->has('valor')) {
-        echo '<h1>Valores de session: ' . count($array) . '</h1>';
-        foreach ($array as $key => $val) {
-            echo '<h1>' . $key . '- ' . $val . '</h1>';
-        }
-    }
-    echo '<hr>';
-    echo '<h1>Valor recibido : ' . $request->valor . '</h1>';
-
-
-    echo '<hr><a href="/pruebas">Volver</a>';
-    echo '<hr><a href="/reset">reset</a>';
-});
-
-Route::get('/reset', function () {
-    session()->put('valor');
-    echo '<a href="/pruebas">Volver</a>';
-});
-
-Route::get('/dump', function () {
-    return var_dump(session()->all());
 });
 
 Route::get('/firmar', function (\Illuminate\Http\Request $request) {
@@ -92,9 +74,12 @@ Route::get('/firmar', function (\Illuminate\Http\Request $request) {
 
 });
 
+Route::get('/proyectos', function () {
+    return view('reserva.proyectos');
+});
 
 Route::get('/reservar', [\App\Http\Controllers\ReservaController::class, 'vista'])->name('reservar');
 Route::post('/reservar', [\App\Http\Controllers\ReservaController::class, 'reservar']);
-Route::get('/cotizar', [\App\Http\Controllers\ReservaController::class, 'cotizar'])->name('cotizar');
+Route::get('/cotizar/{proyecto}', [\App\Http\Controllers\ReservaController::class, 'cotizar'])->name('cotizar');
 
 require __DIR__ . '/auth.php';

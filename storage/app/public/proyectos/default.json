@@ -1,0 +1,44 @@
+{
+    "preguntas": {
+        "name": {
+            "title": "",
+            "type": "",
+            "placeholder": "",
+            "value": "",
+            "values": []
+        }
+    },
+    "vistas": [
+        {
+            "title": "",
+            "views": [],
+            "to": ""
+        }
+    ],
+    "nombre_del_proyecto": "",
+    "integrantes": {
+        "jefe": "",
+        "asesor_1": "",
+        "promotor_1": ""
+    },
+    "media": {
+        "pagina": "https://cusezar.com",
+        "logo": "",
+        "maps_location": "",
+        "telefono": ""
+    },
+    "areas": [
+        {
+            "id": "",
+            "construidos": 0,
+            "privados": 0,
+            "recorrido": "https://cusezar.com/recorridos/",
+            "plazo": 0,
+            "precio": 0,
+            "separacion": 0,
+            "minima_cuota_inicial": 0,
+            "cesantias_para_proyectar": 0,
+            "primas_para_proyectar": 0
+        }
+    ]
+}

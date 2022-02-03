@@ -5,47 +5,57 @@ namespace App\Http\Controllers;
 use App\Http\Tools\HTML5Renderer;
 use App\Models\Prospecto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ReservaController extends Controller
 {
 
+    protected $config = [
+        'views_file' => 'views-default',
+        'params_file' => 'params-default'
+    ];
+    private $cotizador;
+
+    private $params;
+
+    private $views;
+
+    private $prospecto;
+
+    public function __call($method, $parameters)
+    {
+        try {
+            $request = $parameters[0];
+
+            if (!session()->has('_views')) {
+                $this->views = (object)json_decode(Storage::disk('local')->get('public/json-layouts/' . $this->config['views_file'] . '.json'));
+                $this->params = (object)json_decode(Storage::disk('local')->get('public/json-layouts/' . $this->config['params_file'] . '.json'));
+                session()->put('_views', $this->views);
+                session()->put('_params', $this->params);
+
+            } else {
+                $this->views = session()->get('_views');
+                $this->params = session()->get('_params');
+                $this->cotizador = new CotizacionController(session()->get('proyecto'));
+                session()->put('_cotizador', $this->cotizador);
+                $this->cotizador = session()->get('_cotizador');
+            }
+            if (isset($parameters[1])) {
+                $this->cotizador = new CotizacionController($parameters[1]  );
+                //session()->put('_cotizador', $this->cotizador);
+
+                //} else {
+                //$this->cotizador = session()->get('_cotizador');
+            }
+            return $this->{$method}($request);
+        } catch
+        (\Exception|NotFoundExceptionInterface|ContainerExceptionInterface $e) {
+            $this->log($e);
+        }
+    }
+
     public function nueva_reserva(Request $request)
     {
-        $nombre = $request->session()->get('nombres');
-        $apellido = $request->session()->get('apellidos');
-        $nombre = $request->session()->get('cedula');
-        $nombre = $request->session()->get('celular');
-        $nombre = $request->session()->get('correo');
-        $paso = $request->session()->get('paso');
-        $array[] = $request->valor;
-        $request->session()->put('nombre',);
-
-        if ($request->session()->has('nombre')) {
-            echo '<h1>Valores de session: ' . count($array) . '</h1>';
-            foreach ($array as $key => $val) {
-                echo '<h1>' . $key . '- ' . $val . '</h1>';
-            }
-        }
-
-
-        switch ($paso) {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            default:
-                $request->session()->put('nombres', $request->nombres);
-                $request->session()->put('apellidos', $request->apellidos);
-                $paso++;
-                break;
-        }
-
         $request->session()->put('nombres', $request->nombres);
         $request->session()->put('apellidos', $request->apellidos);
         $request->session()->put('cedula', $request->cedula);
@@ -66,248 +76,39 @@ class ReservaController extends Controller
         $request->session()->put('pasivos', $request->pasivos);
         $request->session()->put('credito', $request->credito);
         $request->session()->put('documentos_cliente', $request->documentos);
-        $this->nueva_vista($paso);
     }
 
-    private $prospecto;
-
-    private $properties = [
-        'nombre_1' => [
-            'title' => 'Primer nombre',
-            'type' => 'text',
-            'placeholder' => '',
-            'value' => '',
-        ],
-        'nombre_2' => [
-            'title' => 'Segundo nombre',
-            'type' => 'text',
-            'placeholder' => '',
-            'value' => ''
-        ],
-        'apellido_1' => [
-            'title' => 'Primer apellido',
-            'type' => 'text',
-            'placeholder' => '',
-            'value' => ''
-        ],
-        'apellido_2' => [
-            'title' => 'Segundo apellidos',
-            'type' => 'text',
-            'placeholder' => '',
-            'value' => ''
-        ],
-        'cedula' => [
-            'title' => 'Numero de identificacion',
-            'type' => 'text',
-            'placeholder' => 'C.C.:',
-            'value' => ''
-        ],
-        'celular' => [
-            'title' => 'Celular',
-            'type' => 'text',
-            'placeholder' => '+57',
-            'value' => ''
-        ],
-        'correo' => [
-            'title' => 'Correo electrónico',
-            'type' => 'email',
-            'placeholder' => 'sucorreo@ejemplo.com',
-            'value' => ''
-        ],
-        'estado_civil' => [
-            'title' => 'Estado Civil',
-            'type' => 'radios',
-            'values' => [
-                'soltero' => 'Soltero(a) sin unión marital de hecho',
-                'union_libre' => 'Soltero(a) con unión marital de hecho',
-                'casado' => 'Casado(a) con unión marital vigente'
-            ]
-        ],
-        'aplica_subsidio' => [
-            'title' => '¿Desea aplicar a subsidio?',
-            'type' => 'radios',
-            'values' => [
-                1 => 'Si',
-                0 => 'No'
-            ]
-        ],
-        'caja_compensacion' => [
-            'title' => 'Caja de compensación',
-            'type' => 'radios',
-            'values' => [
-                'compensar' => 'Compensar',
-                'colsubsidio' => 'Colsubsidio',
-                'cafam' => 'Cafam',
-                'comfacundi' => 'Caja de compensación de Cundinamarca'
-            ]
-        ],
-        'actividad' => [
-            'title' => 'Seleccione su actividad económica',
-            'type' => 'radios',
-            'values' => [
-                'empleado' => 'Empleado',
-                'independiente' => 'Independiente'
-            ]
-        ],
-        'ingresos' => [
-            'title' => 'Ingreso mensual $COP',
-            'type' => 'currency',
-            'placeholder' => '0',
-            'value' => '0'
-        ],
-        'gastos' => [
-            'title' => 'Egresos mensuales',
-            'type' => 'currency',
-            'placeholder' => '0',
-            'value' => '0'
-        ],
-        'primas_proyectadas' => [
-            'title' => '¿Proyectar primas?',
-            'type' => 'radios',
-            'values' => [
-                1 => 'Si',
-                0 => 'No'
-            ]
-        ],
-        'cesantias' => [
-            'title' => 'Saldo actual en cesantías',
-            'type' => 'currency',
-            'placeholder' => '0',
-            'value' => '0'
-        ],
-        'cesantias_proyectadas' => [
-            'title' => '¿Proyectar cesantías?',
-            'type' => 'radios',
-            'values' => [
-                1 => 'Si',
-                0 => 'No'
-            ]
-        ],
-        'ahorros' => [
-            'title' => 'Ahorros adicionales',
-            'type' => 'currency',
-            'placeholder' => '0',
-            'value' => '0'
-        ],
-        'ahorros_proyectados' => [
-            'title' => '¿Proyectar ahorros?',
-            'type' => 'radios',
-            'values' => [
-                1 => 'Si',
-                0 => 'No'
-            ]
-        ],
-        'activos' => [
-            'title' => 'Activos',
-            'type' => 'currency',
-            'placeholder' => '0',
-            'value' => '0'
-        ],
-        'pasivos' => [
-            'title' => 'Pasivos',
-            'type' => 'currency',
-            'placeholder' => '0',
-            'value' => '0'
-        ],
-        'credito' => [
-            'title' => 'Preaprobación',
-            'type' => 'currency',
-            'placeholder' => '0',
-            'value' => '0'
-        ],
-        'submit' => [
-            'type' => 'submit'
-        ]
-    ];
-
-    private $views = [
-        [
-            'title' => '',
-            'views' => [
-                'nombre_1',
-                'nombre_2',
-                'apellido_1',
-                'apellido_2',
-            ],
-            'to' => ''
-        ],
-        [
-            'title' => '',
-            'views' => [
-                'cedula',
-                'celular',
-                'correo',
-                'estado_civil',
-            ],
-            'to' => ''
-        ]
-        ,
-        [
-            'title' => '',
-            'views' => [
-                'aplica_subsidio',
-                'caja_compensacion',
-            ],
-            'to' => ''
-        ],
-        [
-            'title' => '',
-            'views' => [
-                'actividad',
-                'ingresos',
-                'gastos',
-                'primas_proyectadas',
-                'cesantias',
-                'cesantias_proyectadas',
-                'ahorros',
-                'ahorros_proyectados',
-            ],
-            'to' => ''
-        ],
-        [
-            'title' => '',
-            'views' => [
-                'activos',
-                'pasivos',
-                'credito',
-                'submit'
-            ],
-            'to' => ''
-        ]
-    ];
-
-    public function vista(Request $request)
+    private function vista(Request $request)
     {
+        try {
 
-        $content = '';
-        $renderer = new HTML5Renderer();
+            $content = '';
+            $renderer = new HTML5Renderer();
 
-        if (!is_null($request->get('vista'))) {
-            $content = $renderer->input($request->get('vista'), $this->properties[$request->get('vista')]);
-            return view('reserva.template', compact('content'));
-        }
-
-        //
-        foreach ($this->views as $templates) {
+            if (!is_null($request->get('vista'))) {
+                $content = $renderer->input($request->get('vista'), $this->params[$request->get('vista')]);
+                return view('reserva.template', compact('content'));
+            }
 
             //
-            foreach ($templates['views'] as $view) {
-
+            foreach ($this->views as $view) {
                 //
-                if (!$request->session()->has($view)) {
-                    foreach ($templates['views'] as $query) {
-                        $content .= $renderer->input($query, $this->properties[$query]);
+                if (!$request->session()->has($view->views)) {
+                    foreach ($view->views as $query) {
+                        if (property_exists($this->params, $query)) {
+                            $content .= $renderer->input($query, (array)$this->params->{$query});
+                        }
                     }
-
-                    $title = $templates['title'];
-
+                    $title = $view->title;
                     return view('reserva.template', compact('title', 'content'));
                 }
             }
+        } catch (\Exception $e) {
+            $this->log($e);
         }
     }
 
-    public function reservar(Request $request)
+    private function reservar(Request $request)
     {
         try {
 
@@ -331,7 +132,6 @@ class ReservaController extends Controller
                 $clientArray[] = $client;
 
                 //
-                $request->session()->flush();
                 $request->session()->put('clientArray', $clientArray);
 
                 //
@@ -352,10 +152,8 @@ class ReservaController extends Controller
                 //
                 return redirect()->route('reservar');
             }
-
-
         } catch (\Exception $e) {
-            return 'Error:' . $e->getMessage();
+            $this->log($e);
         }
     }
 
@@ -366,23 +164,28 @@ class ReservaController extends Controller
     }
     */
 
-    public function cotizar(Request $request)
+    private function cotizar(Request $request)
     {
-        if (!$request->session()->has('clientArray')) {
+        try {
+
             //
-            return redirect()->route('reservar');
+            if (!$request->session()->has('clientArray')) {
+                //
+                return redirect()->route('reservar');
+            }
+
+            //
+            $clientArray = $request->session()->get('clientArray');
+            $comprador = $clientArray[0];
+
+            $cotizador = $this->cotizador;
+
+            $unidad = $cotizador->area;
+            $cotizacion = $cotizador->cotizar($unidad, $comprador);
+
+            return view('reserva.cotizador', compact('comprador', 'cotizador', 'cotizacion'));
+        } catch (\Exception $e) {
+            $this->log($e);
         }
-
-        $clientArray = $request->session()->get('clientArray');
-
-        $cotizador = new CotizacionController('launiondelamarlene');
-
-        $unidad = $cotizador->proyecto->areas[0];
-
-        $comprador = $clientArray[0];
-
-        $cotizacion = $cotizador->cotizar($unidad, $comprador);
-
-        return view('reserva.cotizador', compact('comprador', 'cotizador', 'unidad', 'cotizacion'));
     }
 }

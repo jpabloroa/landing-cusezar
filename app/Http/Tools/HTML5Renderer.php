@@ -40,7 +40,7 @@ class HTML5Renderer
             case 'submit':
                 return '<input type="hidden" name="submit" value="1">';
             case 'radios':
-                $array = $properties['values'];
+                $array = (array)$properties['values'];
                 $options = '';
                 foreach ($array as $value => $content) {
                     $options .= '

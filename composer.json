@@ -12,7 +12,8 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "postscripton/laravel-money": "^3.1",
-        "spipu/html2pdf": "^5.2"
+        "spipu/html2pdf": "^5.2",
+      "ext-json": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
